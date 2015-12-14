@@ -45,7 +45,36 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+@media all and (min-width: 320px) {
+  nav {
+    display: none;
+    width: 100%; }
+
+  header {
+    background-color: #000066;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    header img {
+      width: 30%; }
+    header #navBtn {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      display: block;
+      position: absolute;
+      top: 45px;
+      right: 20px;
+      text-align: center;
+      color: #FFCC99;
+      border: 1px solid #FFCC99; }
+
+  .imagecontainer img {
+    width: 100%; } }
 /*--------------------------------------end of mobile style rules-------------------------------------------------------------*/
+@media all and (min-width: 700px) {
+  header img {
+    width: 20%; } }
 /*------------------------------------------------end of tablet style rules-------------------------------------------------*/
 /*------------------------------------------end of desktop style rules--------------------------------------------------------*/
 
