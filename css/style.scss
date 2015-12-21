@@ -53,14 +53,13 @@ header img {
 
 
 
-
-
-
 }/*------------------------------------------------end of tablet style rules-------------------------------------------------*/
 
 @media all and (min-width: 980px) {
 
-
+#navBtn {
+	display: none;
+}
 
 
 

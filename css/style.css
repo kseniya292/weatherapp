@@ -46,9 +46,11 @@ table {
   border-spacing: 0; }
 
 @media all and (min-width: 320px) {
-  nav {
-    display: none;
-    width: 100%; }
+
+
+nav ul {
+  display: none;
+}
 
   header {
     background-color: #000066;
@@ -74,8 +76,54 @@ table {
 /*--------------------------------------end of mobile style rules-------------------------------------------------------------*/
 @media all and (min-width: 700px) {
   header img {
-    width: 20%; } }
-/*------------------------------------------------end of tablet style rules-------------------------------------------------*/
+    width: 20%; } 
+
+header {
+  position: relative;
+  width: 100%;
+}
+
+nav {
+  display: inline-block;
+  float: right;
+  /*padding: 10px;*/
+  /*width: 100%;*/
+  position: absolute;
+  padding-top: 40px;
+  padding-left: 50px;
+ }
+
+nav ul {
+  display: inline-block;
+  float: right;
+  padding-bottom: 40px;
+
+}
+
+nav ul li {
+  float: left;
+  padding-left: 20px;
+  padding-right: 40px;
+}
+
+header #navBtn {
+  display: none;
+}
+
+.imagecontainer {
+  float: left;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+
+
+}/*------------------------------------------------end of tablet style rules-------------------------------------------------*/
+ @media all and (min-width: 900px) {
+  header img {
+    width: 10%; } }
+
+    
 /*------------------------------------------end of desktop style rules--------------------------------------------------------*/
 
 /*# sourceMappingURL=style.css.map */
