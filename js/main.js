@@ -1,84 +1,93 @@
-$(document).ready(function(){
- /* $(".fb-album-container").FacebookAlbumBrowser({
-    account: "Montezuma-Half-Marathon-5K-970747939609605"
-  });*/
+$(document).ready(function() {
 
-/*$("").hover(function () {
-	$(this).find("img").animate({
-		"opacity" : 0.6,
-	}); //animate on
-}, function () {
-	$(this).find("img").animate({
-		"opacity" : 1.0, 
-	}); // animate off
-}); // complete hover*/
+  var fahrenheit = 0;
+  var celsius = 0;
+  var tempFlag = false;
+  
+$.ajax({
+    url: "http://ip-api.com/json", 
+    type: 'GET',  
+    dataType: 'json',
+    success: function(data) {  
+       $.ajax({
+    url: "http://api.openweathermap.org/data/2.5/weather?lat=" + data.lat + "&lon=" + data.lon + "&units=imperial&APPID=22e9fa4ba0cc27a35d5dfaa0cb7d40e7", 
+    type: 'GET', 
+    data: {}, 
+    dataType: 'json',
 
-$(".mainphoto").hover(function () {
+    success: function(data) {  
+    console.log(data); 
 
-	$(this).find("img").animate({
-		"opacity" : 0.6,
-	}); //animate on
+    //clear sky, few clouds, scattered clouds, broken clouds, 
 
-}, function () {
-	$(this).find("img").animate({
-		"opacity" : 1.0, 
-	}); // animate off
+    if (data.weather[0].description === "scattered clouds" || "broken clouds") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/cloudy-98496_960_720.png'/>");
+    } else if (data.weather[0].description === "few clouds") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/sunny-98492__180.png'/>");    
+    } else if (data.weather[0].description === "clear sky") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/sunny-98493__180.png'/>");
+    } else if (data.weather[0].description === "shower rain" || "rain") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/cloudy-98506__180.png'/>");
+    } else if (data.weather[0].description === "thunderstorm") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/lightning-98499__180.png'/>");
+    } else if (data.weather[0].description === "snow") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/snowy-98502__180.png'/>");
+      } else if (data.weather[0].description === "mist") {
+      $(".icon").html("<img src= 'https://pixabay.com/static/uploads/photo/2013/04/01/09/21/fog-98505__180.png'/>")
+    }
 
-}); // complete hover
+    $("#data").html(Math.floor(data.main.temp) + '<span class="degrees">&deg</span>');
+    $(".celOrFah").html('Celsius');
+    $("#conditions").html(data.weather[0].main);
+    $("#location").html(" " + data.name + "...")
+      console.log(data);
+    fahrenheit = Math.floor(data.main.temp);
+ 
+    },
+    error: function(err) { alert(err); },
 
-var endtime = "2016-06-26T08:15:00-05:00";
+  }); //ajax call
+                         
+                            },
+    error: function(err) { alert(err); },
 
-// calculate time remaining
-function getTimeRemaining(endtime) {
-	var t = Date.parse(endtime) - Date.now(); //date.parse is native function that converts time string into a value in milliseconds
-	var seconds = Math.floor( (t/1000) % 60 );
-	var minutes = Math.floor( (t/1000/60) % 60 );
-	var hours = Math.floor( (t/(1000*60*60)) % 24);
-	var days = Math.floor( t/(1000*60*60*24));
+  }); //ajax call
+  
+  
 
-return {
-	"total" : t,
-	"days" : days,
-	"hours" : hours,
-	"minutes" : minutes,
-	"seconds" : seconds,
+  $(".tempBtn").on("click", 
+     function() {
+    if (tempFlag === false) {
+    celsius = Math.floor((fahrenheit - 32) * (5/9));
+    $("#data").html(celsius + '<span class="degrees">&deg</span>'); 
+    $(".celOrFah").html('Fahrenheit');
+      tempFlag = true;
+    } else {
+      $("#data").html(fahrenheit + '<span class="degrees">&deg</span>');
+      $(".celOrFah").html('Celsius');
+      tempFlag = false;
+    }
+  }); //click
 
+var appHeight, windowHeight, appTop;
 
-}; //return- output clock data as a reusable object
+function centerApp() {
+  appHeight = $(".app").height();
+  windowHeight = $(window).height();
+  appTop = (windowHeight - appHeight)/2;
+  $(".app").css({
+    "top" : appTop
 
-} //get time remaining
+  }); //css
 
-//console.log(getTimeRemaining(endtime).days);
+} //resize main image
 
-function initializeClock(id, endtime) {
-	var clock = document.getElementById(id);
-		var daysSpan = clock.querySelector(".days");
-		var hoursSpan = clock.querySelector(".hours");
-		var minutesSpan = clock.querySelector(".minutes");
-		var secondsSpan = clock.querySelector(".seconds");
+$(window).resize(function () {
+  centerApp();
 
-	function updateClock() {
-		var t = getTimeRemaining(endtime);
+  }); //resize
 
-			daysSpan.innerHTML = t.days;
-		    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-		    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-		    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-		if(t.total<=0) {
-			clearInterval(timeInterval);
-		}		
-
-	} //update clock
-
-updateClock();
-var timeInterval = setInterval(updateClock, 1000);
-} //initialize Clock
-
-/*var endtime = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);*/
-
-initializeClock("clockdiv", endtime);
-
-
-
-}); //ready method end
+centerApp();
+  
+  
+}); //document ready 
